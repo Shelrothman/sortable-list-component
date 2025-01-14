@@ -1,0 +1,57 @@
+.modal {
+  height: 75vh;
+  background-color: #ffffff5e;
+  box-shadow: 0px 44px 64px 0px rgba(37, 99, 235, 0.10);
+  border-radius: 16px;
+  margin: 1rem 0;
+  width: 600px;
+  max-width: 75vw;
+  /* 2 columns, 2 row */
+  display: grid;
+  column-gap: 2rem;
+  /* have them both scale but the content is more */
+  grid-template-columns: 1fr 0.5fr;
+  grid-template-rows: 50px 1fr;
+  grid-template-areas:
+    "header header"
+    "content sidebar";
+
+
+  /* background-color: #ffffffbb; */
+
+}
+
+.modal-header {
+  grid-area: header;
+  display: flex;
+  flex-direction: row;
+  height: min-content;
+  justify-content: flex-end;
+}
+
+.btn.btn-close {
+  margin: 0.5rem;
+  background-color: transparent;
+  opacity: 0.5;
+  border: none;
+  border-radius: 16px;
+
+  &:hover {
+    background-color: rgba(85, 238, 169, 0.438);
+  }
+}
+
+.modal-content {
+  grid-area: content;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.5rem 2rem;
+  border: 1px solid green;
+}
+
+.modal-sidebar {
+  grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
+}

@@ -1,13 +1,13 @@
 /* eslint-disable react-refresh/only-export-components */
 import React from 'react';
 import { Skill, SkillRefObject } from '../types';
-
+import { freshSkillMap } from '../utils/constants';
 
 export type TechSkillContextType = {
 	unselectedTechSkills: Skill[];
 	setUnselectedTechSkills: (techSkills: Skill[]) => void;
-  skillMap: SkillRefObject;
-  setSkillMap: (map: SkillRefObject) => void;
+	skillMap: SkillRefObject;
+	setSkillMap: (map: SkillRefObject) => void;
 };
 
 /**
@@ -30,21 +30,21 @@ export const TechSkillProvider: React.FC<TechSkillProviderProps> = ({
 	fullList,
 	children,
 }) => {
-	
-  const [unselectedTechSkills, setUnselectedTechSkills] =
+	const [unselectedTechSkills, setUnselectedTechSkills] =
 		React.useState<Skill[]>(fullList);
 
-  const [skillMap, setSkillMap] = React.useState<SkillRefObject>({
-    1: {} as Skill,
-    2: {} as Skill,
-    3: {} as Skill,
-    4: {} as Skill,
-    5: {} as Skill,
-  });
+	const [skillMap, setSkillMap] = React.useState<SkillRefObject>({
+		...freshSkillMap,
+	});
 
 	return (
 		<TechSkillContext.Provider
-			value={{ unselectedTechSkills, setUnselectedTechSkills, skillMap, setSkillMap }}
+			value={{
+				unselectedTechSkills,
+				setUnselectedTechSkills,
+				skillMap,
+				setSkillMap,
+			}}
 		>
 			{children}
 		</TechSkillContext.Provider>

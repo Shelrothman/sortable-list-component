@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import { TechSkillProvider } from './contexts/TechSkillContext';
-import { TechSkillModal } from './components/TechSkillModal/TechSkillModal';
-import { tech } from './data/tech';
+import { TechSkillProvider } from '@contexts/TechSkillContext';
+import { TechSkillModal } from '@components/TechSkillModal';
+import { tech } from '@data/tech';
 
 function App() {
 	const [modalOpen, setModalOpen] = React.useState(false);

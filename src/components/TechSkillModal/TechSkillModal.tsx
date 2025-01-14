@@ -1,11 +1,13 @@
 import React from 'react';
 
-import { useTechSkillContext } from '../../contexts/TechSkillContext';
+import { useTechSkillContext } from '@contexts/TechSkillContext';
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
-import { InputItem } from '../InputItem/InputItem';
-import { Skill, SkillPosition } from '../../types';
-import { tech } from '../../data/tech';
+import { InputItem } from '@components/InputItem';
+import { DisplayItem } from '@/components/DisplayItem';
+import { Skill, SkillPosition } from '@/types';
+import { tech } from '@data/tech';
+import { freshSkillMap } from '@utils/constants';
 
 import './techSkillModal.css';
 
@@ -14,14 +16,12 @@ interface TechSkillModalProps {
 	onClose: () => void;
 }
 
-const positionArray = [1, 2, 3, 4, 5] as SkillPosition[];
-
 export const TechSkillModal: React.FC<TechSkillModalProps> = ({
 	show,
 	onClose,
 }) => {
 	const {
-		unselectedTechSkills,
+		unselectedTechSkills, // todo: may be able just have this local state here and not need in the context
 		setUnselectedTechSkills,
 		skillMap,
 		setSkillMap,
@@ -36,15 +36,13 @@ export const TechSkillModal: React.FC<TechSkillModalProps> = ({
 		setCurrentPosition(1);
 		setUnselectedTechSkills(tech);
 		setSkillMap({
-			1: {} as Skill,
-			2: {} as Skill,
-			3: {} as Skill,
-			4: {} as Skill,
-			5: {} as Skill,
+			...freshSkillMap,
 		});
 	};
 
-	const handleSelectionChange = (skill: Skill) => {
+	// TODO: change state logic to a reducer (https://react.dev/learn/extracting-state-logic-into-a-reducer)
+
+	const handleAddSelectedSkill = (skill: Skill) => {
 		const newUnselectedTechSkills = unselectedTechSkills.filter(
 			(s) => s.id !== skill.id
 		);
@@ -56,7 +54,21 @@ export const TechSkillModal: React.FC<TechSkillModalProps> = ({
 		setCurrentPosition(
 			(currentPosition) => (currentPosition + 1) as SkillPosition
 		);
-		//todo: then turn it into a displayed...item and the exit logic will do opposite of above pretty much
+	};
+
+	const handleRemoveSelectedSkill = (skill: Skill, position: SkillPosition) => {
+		const newUnselectedTechSkills = [...unselectedTechSkills, skill];
+		// add the skill back into the unselected list
+		setUnselectedTechSkills(newUnselectedTechSkills);
+		const newMapObject = { ...skillMap };
+		// shift all the skills up in the objectMap
+		for (let i = position; i < 5; i++) {
+			newMapObject[i] = newMapObject[(i + 1) as SkillPosition];
+		}
+		setSkillMap(newMapObject);
+		setCurrentPosition(
+			(currentPosition) => (currentPosition - 1) as SkillPosition
+		);
 	};
 
 	if (!show) return <></>;
@@ -74,23 +86,28 @@ export const TechSkillModal: React.FC<TechSkillModalProps> = ({
 				</IconButton>
 			</div>
 			<div className="modal-content">
-				{positionArray.map((itemPosition) => {
-					if (itemPosition > currentPosition)
+				{Object.entries(skillMap).map(([key, skill], index) => {
+					if (!skill || !skill.id)
 						return (
 							<InputItem
-								key={itemPosition}
+								key={`${key}-empty`}
 								options={unselectedTechSkills}
-								onSelectionChange={handleSelectionChange}
-								position={itemPosition}
-								isDisabled={true}
+								onSelectionChange={handleAddSelectedSkill}
+								position={+key as SkillPosition}
+								isDisabled={+key > currentPosition}
 							/>
 						);
 					return (
-						<InputItem
-							key={itemPosition}
-							options={unselectedTechSkills}
-							onSelectionChange={handleSelectionChange}
-							position={itemPosition}
+						<DisplayItem
+							key={`${skill.name}-${skill.id}`}
+							name={skill.name}
+							position={+key}
+							onRemove={() =>
+								handleRemoveSelectedSkill(
+									skillMap[+key as SkillPosition],
+									+key as SkillPosition
+								)
+							}
 						/>
 					);
 				})}

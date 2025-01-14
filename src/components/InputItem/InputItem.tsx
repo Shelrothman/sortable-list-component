@@ -1,9 +1,9 @@
 import React from 'react';
 import { Menu, MenuItem, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ItemWrapper } from '../ItemWrapper.tsx/ItemWrapper';
+import { ItemWrapper } from '../ItemWrapper/ItemWrapper';
 import { Skill, SkillPosition } from '../../types';
-import { useTechSkillContext } from '../../contexts/TechSkillContext';
+import { useTechSkillContext } from '@contexts/TechSkillContext';
 
 /*
 use the mui and then use that phone screenshot i just took to make th it take the right width and the
@@ -63,15 +63,17 @@ export const InputItem: React.FC<InputItemProps> = ({
 				aria-label={`skill-selector-${position}`}
 				aria-expanded={open ? 'true' : undefined}
 				onClick={handleClickListItem}
-				isSet={!!skillMap[position].id}
-        disabled={isDisabled}
+				// isSet={!!skillMap[position].id}
+        // disabled={isDisabled}
+        itemState={isDisabled ? 'disabled' : 'active'}
 			>
 				<Typography>
 					{position}.{' '}
           {skillMap[position].name ? skillMap[position].name : 'Add skill'}
 				</Typography>
-				<ExpandMoreIcon color="inherit" />
+				{!isDisabled && <ExpandMoreIcon color="inherit" />}
 			</ItemWrapper>
+      {/* TODO: menu in its own file. */}
 			<Menu
 				id="lock-menu"
 				anchorEl={anchorEl}

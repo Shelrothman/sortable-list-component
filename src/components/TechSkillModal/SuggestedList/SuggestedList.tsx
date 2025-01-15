@@ -1,7 +1,6 @@
 import React from 'react';
 import { Skill } from '@/types';
 
-// PICKUP: herre implementing this modulated from parentttttt
 type SuggestedListProps = {
 	skills: Skill[];
 	handleAdd: (skill: Skill) => void;

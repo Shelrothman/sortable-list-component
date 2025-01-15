@@ -31,7 +31,11 @@ export const InputItem: React.FC<InputItemProps> = ({
 						{option.name}
 					</MenuItem>
 				)}
-				sx={{ backgroundColor: '#ffffffbb', borderRadius: '6px' }}
+				sx={{
+					backgroundColor: '#ffffffbb',
+					borderRadius: '6px',
+					opacity: isDisabled ? 0.5 : 1,
+				}}
 				onChange={(_event, value) => value && onSelectionChange(value)}
 				renderInput={(params) => (
 					<TextField

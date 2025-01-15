@@ -35,7 +35,8 @@ export const InputItem: React.FC<InputItemProps> = ({
 	isDisabled = false,
 }) => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-	const { skillMap } = useTechSkillContext();
+	// const { skillMap } = useTechSkillContext();
+  const { skillMap } = useTechSkillContext().state;
   const open = Boolean(anchorEl);
 
 	const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
@@ -63,9 +64,7 @@ export const InputItem: React.FC<InputItemProps> = ({
 				aria-label={`skill-selector-${position}`}
 				aria-expanded={open ? 'true' : undefined}
 				onClick={handleClickListItem}
-				// isSet={!!skillMap[position].id}
-        // disabled={isDisabled}
-        itemState={isDisabled ? 'disabled' : 'active'}
+			 itemState={isDisabled ? 'disabled' : 'active'}
 			>
 				<Typography>
 					{position}.{' '}

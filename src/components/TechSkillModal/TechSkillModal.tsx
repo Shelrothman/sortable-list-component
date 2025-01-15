@@ -1,69 +1,21 @@
 import React from 'react';
 
-import { useTechSkillContext } from '@contexts/TechSkillContext';
+import {
+	useTechSkillContext,
+	useTechSkillDispatch,
+} from '@contexts/TechSkillContext';
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
 import { InputItem } from '@components/InputItem';
 import { DisplayItem } from '@/components/DisplayItem';
-import { Skill, SkillPosition, SkillRefObject } from '@/types';
-import { freshSkillMap } from '@utils/constants';
+import { Skill, SkillPosition } from '@/types';
+import { isFull } from '@utils/constants';
+// import { tech } from '@data/tech';
 
 import './techSkillModal.css';
 
 // todo: obvs clean modulate this whole file up
 // clean up/ modernize and make more efficient
-
-// todo: all reducer logic into our context file
-
-type SkillState = {
-	unselectedTechSkills: Skill[];
-	currentPosition: SkillPosition;
-};
-
-type SkillAction =
-	| { type: 'RESET'; payload: Skill[] }
-	| { type: 'ADD_SKILL'; payload: Skill }
-	| {
-			type: 'REMOVE_SKILL';
-			payload: { skill: Skill; position: SkillPosition; isFull: boolean };
-	  };
-
-const isFull = (obj: SkillRefObject) => Object.values(obj).every((s) => s.id);
-
-const initialSkillState = (fullList: Skill[]): SkillState => ({
-	unselectedTechSkills: fullList,
-	currentPosition: 1,
-});
-
-const skillReducer = (state: SkillState, action: SkillAction): SkillState => {
-	switch (action.type) {
-		case 'RESET':
-			return initialSkillState(action.payload);
-		case 'ADD_SKILL':
-			return {
-				...state,
-				unselectedTechSkills: state.unselectedTechSkills.filter(
-					(s) => s.id !== action.payload.id
-				),
-				currentPosition: (state.currentPosition >= 5
-					? state.currentPosition
-					: state.currentPosition + 1) as SkillPosition,
-			};
-		case 'REMOVE_SKILL':
-			return {
-				...state,
-				unselectedTechSkills: [
-					...state.unselectedTechSkills,
-					action.payload.skill,
-				],
-				currentPosition: action.payload.isFull
-					? 5
-					: ((state.currentPosition - 1) as SkillPosition),
-			};
-		default:
-			return state;
-	}
-};
 
 interface TechSkillModalProps {
 	show: boolean;
@@ -74,49 +26,52 @@ export const TechSkillModal: React.FC<TechSkillModalProps> = ({
 	show,
 	onClose,
 }) => {
-	const { fullList, skillMap, setSkillMap } = useTechSkillContext();
+	// const { fullList, skillMap, setSkillMap } = useTechSkillContext();
 
-	const [state, dispatch] = React.useReducer(
-		skillReducer,
-		fullList,
-		initialSkillState
-	);
+	// const [state, dispatch] = React.useReducer(
+	// 	skillReducer,
+	// 	fullList,
+	// 	initialSkillState
+	// );
+	const { state, fullList } = useTechSkillContext();
+	const dispatch = useTechSkillDispatch();
+	// const { fullList } = state;
 
 	const handleCloseModal = () => {
 		onClose();
 		dispatch({ type: 'RESET', payload: fullList });
 		// ^resets, todo: change if u wanna persist.. maybe instead of calling reste it calls to save in local..
-		setSkillMap({
-			...freshSkillMap,
-		});
+		// setSkillMap({
+		// 	...freshSkillMap,
+		// });
 	};
 
 	const handleAddSelectedSkill = (skill: Skill) => {
-		if (isFull(skillMap)) {
+		if (isFull(state.skillMap)) {
 			return alert('You have already selected 5 skills');
 		}
-		dispatch({ type: 'ADD_SKILL', payload: skill });
-		const previousMapObject = { ...skillMap };
-		previousMapObject[state.currentPosition] = skill;
-		setSkillMap(previousMapObject);
+		dispatch({ type: 'ADD_SKILL', payload: { skill } });
+		// const previousMapObject = { ...skillMap };
+		// previousMapObject[state.currentPosition] = skill;
+		// setSkillMap(previousMapObject);
 	};
 
 	const handleRemoveSelectedSkill = (skill: Skill, position: SkillPosition) => {
-		const _isFull = isFull(skillMap);
+		// const _isFull = isFull(skillMap);
 		dispatch({
 			type: 'REMOVE_SKILL',
-			payload: { skill, position, isFull: _isFull },
+			payload: { skill, position },
 		});
-		const newMapObject = { ...skillMap };
-		for (let i = position; i < 5; i++) {
-			newMapObject[i] = newMapObject[(i + 1) as SkillPosition];
-		}
-		if (_isFull) {
-			newMapObject[5] = freshSkillMap[5];
-			setSkillMap(newMapObject);
-			return;
-		}
-		setSkillMap(newMapObject);
+		// const newMapObject = { ...skillMap };
+		// for (let i = position; i < 5; i++) {
+		// 	newMapObject[i] = newMapObject[(i + 1) as SkillPosition];
+		// }
+		// if (_isFull) {
+		// 	newMapObject[5] = freshSkillMap[5];
+		// 	setSkillMap(newMapObject);
+		// 	return;
+		// }
+		// setSkillMap(newMapObject);
 	};
 
 	if (!show) return <></>;
@@ -134,7 +89,7 @@ export const TechSkillModal: React.FC<TechSkillModalProps> = ({
 				</IconButton>
 			</div>
 			<div className="modal-content">
-				{Object.entries(skillMap).map(([key, skill]) => {
+				{Object.entries(state.skillMap).map(([key, skill]) => {
 					if (!skill || !skill.id)
 						return (
 							<InputItem
@@ -152,7 +107,7 @@ export const TechSkillModal: React.FC<TechSkillModalProps> = ({
 							position={+key}
 							onRemove={() =>
 								handleRemoveSelectedSkill(
-									skillMap[+key as SkillPosition],
+									state.skillMap[+key as SkillPosition],
 									+key as SkillPosition
 								)
 							}

@@ -3,7 +3,6 @@ import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { ItemWrapper } from '../ItemWrapper';
 import { IconButton, Typography } from '@mui/material';
-import { ItemState } from '@/types';
 
 type DisplayItemProps = {
 	onRemove: () => void;
@@ -19,27 +18,25 @@ export const DisplayItem: React.FC<DisplayItemProps> = ({
 	name,
 	position,
 }) => {
-	const [itemState, setItemState] = React.useState<ItemState>('set');
-
 	return (
 		<ItemWrapper
 			id={`skill-display-${position}`}
 			draggable={true}
-			// isSet={true}
-			itemState={itemState}
+			itemState={'set'}
 			style={{ cursor: 'grab' }}
-			// onClick={onClick}
 		>
 			<Typography>
 				{position}. {name}
 			</Typography>
 			<IconButton
 				color="inherit"
-				onClick={() => {
-          // setItemState('disabled');
-					onRemove();
+				onClick={onRemove}
+				sx={{
+					padding: 0,
+					'&:hover': {
+						backgroundColor: 'rgba(85, 238, 169, 0.438)',
+					},
 				}}
-				sx={{ padding: 0 }}
 			>
 				<CloseIcon fontSize="small" />
 			</IconButton>

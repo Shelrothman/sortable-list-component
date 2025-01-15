@@ -8,7 +8,7 @@
   max-width: 75vw;
   /* 2 columns, 2 row */
   display: grid;
-  column-gap: 2rem;
+  /* column-gap: 10px; */
   /* have them both scale but the content is more */
   grid-template-columns: 1fr 0.5fr;
   grid-template-rows: 50px 1fr;
@@ -47,11 +47,44 @@
   flex-direction: column;
   gap: 1rem;
   padding: 0.5rem 2rem;
-  border: 1px solid green;
+  /* border: 1px solid green; */
 }
 
 .modal-sidebar {
   grid-area: sidebar;
   display: flex;
   flex-direction: column;
+  /* gap: .5rem; */
+  padding: 0.5rem 2rem;
+  /* font-size: .5rem; */
+
+  overflow-y: scroll;
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+
+  ::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
+  }
+}
+
+.modal-sidebar-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  /* position: sticky; ???: */
+}
+
+.skill-item {
+  margin-bottom: 0.25rem;
+  cursor: pointer;
+}
+
+.skill-item-title {
+
+  &:hover {
+    border-radius: 16px;
+    padding: 0.25rem;
+    background-color: rgba(85, 238, 169, 0.11);
+  }
 }

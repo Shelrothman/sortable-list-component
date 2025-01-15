@@ -77,7 +77,7 @@ export const tech = [
 	},
 	{
 		id: 13,
-		name: 'GCP',
+		name: 'GoogleCloud',
 		icon: 'devicon-googlecloud-plain colored',
 		level: 2,
 	},

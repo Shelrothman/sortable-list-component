@@ -1,8 +1,8 @@
 import React from 'react';
 import { Menu, MenuItem, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ItemWrapper } from '../ItemWrapper/ItemWrapper';
-import { Skill, SkillPosition } from '../../types';
+import { ItemWrapper } from '@components/ItemWrapper';
+import { Skill, SkillPosition } from '../../../types';
 import { useTechSkillContext } from '@contexts/TechSkillContext';
 
 /*
@@ -16,9 +16,6 @@ try the thing from screenshot soon...future:
 */
 
 type InputItemProps = {
-	// label: string;
-	// value: string;
-	// previousSelected?: boolean; // pickup:
 	options: Skill[];
 	// onChange: MenuProps['onChange'];
 	onSelectionChange: (s: Skill) => void;
@@ -35,7 +32,6 @@ export const InputItem: React.FC<InputItemProps> = ({
 	isDisabled = false,
 }) => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-	// const { skillMap } = useTechSkillContext();
   const { skillMap } = useTechSkillContext().state;
   const open = Boolean(anchorEl);
 

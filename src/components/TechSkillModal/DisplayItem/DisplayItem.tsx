@@ -1,7 +1,7 @@
 import React from 'react';
 
 import CloseIcon from '@mui/icons-material/Close';
-import { ItemWrapper } from '../ItemWrapper';
+import { ItemWrapper } from '@components/ItemWrapper';
 import { IconButton, Typography } from '@mui/material';
 
 type DisplayItemProps = {

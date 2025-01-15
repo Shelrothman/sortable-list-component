@@ -6,13 +6,13 @@ import {
 } from '@contexts/TechSkillContext';
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
-import { InputItem } from '@components/InputItem';
-import { DisplayItem } from '@/components/DisplayItem';
+import { InputItem } from './InputItem';
+import { DisplayItem } from './DisplayItem';
+import { SuggestedList } from './SuggestedList';
 import { Skill, SkillPosition } from '@/types';
 import { isFull } from '@utils/constants';
 
 import './techSkillModal.css';
-
 
 interface TechSkillModalProps {
 	show: boolean;
@@ -25,8 +25,8 @@ export const TechSkillModal: React.FC<TechSkillModalProps> = ({
 }) => {
 	const { state, fullList } = useTechSkillContext();
 	const dispatch = useTechSkillDispatch();
-  
-  if (!show) return <></>;
+
+	if (!show) return <></>;
 
 	const handleCloseModal = () => {
 		onClose();
@@ -88,17 +88,10 @@ export const TechSkillModal: React.FC<TechSkillModalProps> = ({
 				})}
 			</div>
 			<div className="modal-sidebar">
-				<h4 className="modal-sidebar-title">Suggested Skills</h4>
-				{state.unselectedTechSkills.map((s) => (
-					<div
-						key={s.name}
-						className="skill-item"
-						title={`add ${s.name} skill`}
-						onClick={() => handleAddSelectedSkill(s)}
-					>
-						<span className="skill-item-title">+&nbsp;{s.name}</span>
-					</div>
-				))}
+				<SuggestedList
+					skills={state.unselectedTechSkills}
+					handleAdd={handleAddSelectedSkill}
+				/>
 			</div>
 		</div>
 	);

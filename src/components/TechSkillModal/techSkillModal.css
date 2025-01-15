@@ -72,6 +72,8 @@
 .modal-sidebar-title {
   font-weight: 600;
   margin-bottom: 0.5rem;
+  /* display: flex; */
+  /* flex-wrap: nowrap; */
   /* position: sticky; ???: */
 }
 

@@ -1,16 +1,8 @@
 import React from 'react';
-import { Menu, MenuItem, Typography } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ItemWrapper } from '@components/ItemWrapper';
+import { MenuItem, Autocomplete, TextField } from '@mui/material';
 import { Skill, SkillPosition } from '../../../types';
-import { useTechSkillContext } from '@contexts/TechSkillContext';
 
-/*
-use the mui and then use that phone screenshot i just took to make th it take the right width and the
-in parent, once gets added, then  it turns into a `DisplayItem` component
-fixme: the width of the menu is not correct,
-try the thing from screenshot soon...future:
-*/
+import './inputItem.css';
 
 type InputItemProps = {
 	options: Skill[];
@@ -27,63 +19,30 @@ export const InputItem: React.FC<InputItemProps> = ({
 	position,
 	isDisabled = false,
 }) => {
-	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-	const { skillMap } = useTechSkillContext().state;
-	const open = Boolean(anchorEl);
-
-	const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorEl(event.currentTarget);
-	};
-
-	const handleMenuItemClick = (
-		_event: React.MouseEvent<HTMLElement>,
-		index: number
-	) => {
-		const itemToSelect = options[index];
-		onSelectionChange(itemToSelect);
-		setAnchorEl(null);
-	};
-
-	const handleClose = () => setAnchorEl(null);
-
 	return (
 		<>
-			<ItemWrapper
-				id={`skill-selector-${position}`}
-				aria-haspopup="listbox"
-				aria-controls="lock-menu"
-				aria-label={`skill-selector-${position}`}
-				aria-expanded={open ? 'true' : undefined}
-				onClick={handleClickListItem}
-				itemState={isDisabled ? 'disabled' : 'active'}
-			>
-				<Typography>
-					{position}.{' '}
-					{skillMap[position].name ? skillMap[position].name : 'Add skill'}
-				</Typography>
-				{!isDisabled && <ExpandMoreIcon color="inherit" />}
-			</ItemWrapper>
-			<Menu
-				id="lock-menu"
-				anchorEl={anchorEl}
-				open={open}
-				onClose={handleClose}
-				MenuListProps={{
-					'aria-labelledby': `skill-selector-${position}`,
-					role: 'listbox',
-					sx: { width: anchorEl && anchorEl.clientWidth },
-				}}
-			>
-				{options.map((option, index) => (
-					<MenuItem
-						key={option.name}
-						selected={skillMap[position].id === option.id}
-						onClick={(event) => handleMenuItemClick(event, index)}
-					>
+			<Autocomplete
+				disabled={isDisabled}
+				options={options}
+				clearIcon={null}
+				getOptionLabel={(option) => `${position}. ${option.name}`}
+				renderOption={(props, option) => (
+					<MenuItem {...props} key={option.name}>
 						{option.name}
 					</MenuItem>
-				))}
-			</Menu>
+				)}
+				sx={{ backgroundColor: '#ffffffbb', borderRadius: '6px' }}
+				onChange={(_event, value) => value && onSelectionChange(value)}
+				renderInput={(params) => (
+					<TextField
+						{...params}
+						placeholder={`${position}. Add skill`}
+						// cred: https://github.com/mui/material-ui/issues/20286
+						onMouseDownCapture={(e) => e.stopPropagation()}
+						sx={{ color: '#03103b' }}
+					/>
+				)}
+			/>
 		</>
 	);
 };

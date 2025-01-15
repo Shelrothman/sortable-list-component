@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, BoxProps } from '@mui/material';
 import { ItemState } from '@/types';
+// import { styled } from '@mui/system';
 
 type ItemWrapperProps = {
 	children: React.ReactNode;
@@ -31,14 +32,15 @@ export const ItemWrapper: React.FC<ItemWrapperProps> = ({
 				width: '100%',
 				border: getBorder(itemState),
 				bgcolor: getBgColor(itemState),
-				color: itemState === 'set' ? '#fff' : '#03103b',
+        color: '#fff',
+				// color: itemState === 'set' ? '#fff' : '#03103b',
 				display: 'flex',
 				cursor: itemState === 'active' ? 'pointer' : 'initial',
 				justifyContent: 'space-between',
 				alignItems: 'center',
 				padding: '0.75rem 0.5rem',
 				borderRadius: '6px',
-				opacity: itemState === 'disabled' ? 0.5 : 1,
+				// opacity: itemState === 'disabled' ? 0.5 : 1,
 			}}
 		>
 			{children}

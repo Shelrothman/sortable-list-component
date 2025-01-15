@@ -1,6 +1,8 @@
 import React from 'react';
 import { Skill } from '@/types';
 
+import './suggestedList.css';
+
 type SuggestedListProps = {
 	skills: Skill[];
 	handleAdd: (skill: Skill) => void;

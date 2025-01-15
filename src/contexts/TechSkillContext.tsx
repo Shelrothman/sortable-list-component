@@ -3,6 +3,8 @@ import React from 'react';
 import { Skill, SkillRefObject, SkillPosition } from '../types';
 import { freshSkillMap, isFull } from '@utils/constants';
 
+// info: this is a GREAT REFERENCE FOR GROKING *REDUCERS*/Contexts Pattern
+
 type SkillState = {
 	unselectedTechSkills: Skill[];
 	currentPosition: SkillPosition;
@@ -105,12 +107,9 @@ function handleAddSkillAction(state: SkillState, payload: AddPayload) {
 function handleRemoveSkillAction(state: SkillState, payload: RemovePayload) {
 	const _isFull = isFull(state.skillMap);
 	const newMapObject = { ...state.skillMap };
-	for (let i = payload.position; i < 5; i++) {
+	for (let i = payload.position; i < 5; i++)
 		newMapObject[i] = newMapObject[(i + 1) as SkillPosition];
-	}
-	if (_isFull) {
-		newMapObject[5] = freshSkillMap[5];
-	}
+	if (_isFull) newMapObject[5] = freshSkillMap[5];
 	return {
 		...state,
 		unselectedTechSkills: [...state.unselectedTechSkills, payload.skill],

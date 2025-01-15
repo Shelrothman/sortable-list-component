@@ -12,7 +12,7 @@ function App() {
 			<h1 className="title">Select your top 5 tech skills</h1>
 			{!modalOpen && (
 				<button className="btn btn-primary" onClick={() => setModalOpen(true)}>
-					Open Modal
+					Start
 				</button>
 			)}
 			<TechSkillModal show={modalOpen} onClose={() => setModalOpen(false)} />

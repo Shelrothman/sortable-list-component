@@ -10,12 +10,9 @@ import { InputItem } from '@components/InputItem';
 import { DisplayItem } from '@/components/DisplayItem';
 import { Skill, SkillPosition } from '@/types';
 import { isFull } from '@utils/constants';
-// import { tech } from '@data/tech';
 
 import './techSkillModal.css';
 
-// todo: obvs clean modulate this whole file up
-// clean up/ modernize and make more efficient
 
 interface TechSkillModalProps {
 	show: boolean;
@@ -26,24 +23,15 @@ export const TechSkillModal: React.FC<TechSkillModalProps> = ({
 	show,
 	onClose,
 }) => {
-	// const { fullList, skillMap, setSkillMap } = useTechSkillContext();
-
-	// const [state, dispatch] = React.useReducer(
-	// 	skillReducer,
-	// 	fullList,
-	// 	initialSkillState
-	// );
 	const { state, fullList } = useTechSkillContext();
 	const dispatch = useTechSkillDispatch();
-	// const { fullList } = state;
+  
+  if (!show) return <></>;
 
 	const handleCloseModal = () => {
 		onClose();
 		dispatch({ type: 'RESET', payload: fullList });
 		// ^resets, todo: change if u wanna persist.. maybe instead of calling reste it calls to save in local..
-		// setSkillMap({
-		// 	...freshSkillMap,
-		// });
 	};
 
 	const handleAddSelectedSkill = (skill: Skill) => {
@@ -51,30 +39,14 @@ export const TechSkillModal: React.FC<TechSkillModalProps> = ({
 			return alert('You have already selected 5 skills');
 		}
 		dispatch({ type: 'ADD_SKILL', payload: { skill } });
-		// const previousMapObject = { ...skillMap };
-		// previousMapObject[state.currentPosition] = skill;
-		// setSkillMap(previousMapObject);
 	};
 
 	const handleRemoveSelectedSkill = (skill: Skill, position: SkillPosition) => {
-		// const _isFull = isFull(skillMap);
 		dispatch({
 			type: 'REMOVE_SKILL',
 			payload: { skill, position },
 		});
-		// const newMapObject = { ...skillMap };
-		// for (let i = position; i < 5; i++) {
-		// 	newMapObject[i] = newMapObject[(i + 1) as SkillPosition];
-		// }
-		// if (_isFull) {
-		// 	newMapObject[5] = freshSkillMap[5];
-		// 	setSkillMap(newMapObject);
-		// 	return;
-		// }
-		// setSkillMap(newMapObject);
 	};
-
-	if (!show) return <></>;
 
 	return (
 		<div className="modal">

@@ -7,17 +7,13 @@ import { useTechSkillContext } from '@contexts/TechSkillContext';
 
 /*
 use the mui and then use that phone screenshot i just took to make th it take the right width and the
-
 in parent, once gets added, then  it turns into a `DisplayItem` component
-
-
-
+fixme: the width of the menu is not correct,
 try the thing from screenshot soon...future:
 */
 
 type InputItemProps = {
 	options: Skill[];
-	// onChange: MenuProps['onChange'];
 	onSelectionChange: (s: Skill) => void;
 	/** position (1-5) in the skill list */
 	position: SkillPosition;
@@ -32,8 +28,8 @@ export const InputItem: React.FC<InputItemProps> = ({
 	isDisabled = false,
 }) => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const { skillMap } = useTechSkillContext().state;
-  const open = Boolean(anchorEl);
+	const { skillMap } = useTechSkillContext().state;
+	const open = Boolean(anchorEl);
 
 	const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -50,7 +46,6 @@ export const InputItem: React.FC<InputItemProps> = ({
 
 	const handleClose = () => setAnchorEl(null);
 
-
 	return (
 		<>
 			<ItemWrapper
@@ -60,15 +55,14 @@ export const InputItem: React.FC<InputItemProps> = ({
 				aria-label={`skill-selector-${position}`}
 				aria-expanded={open ? 'true' : undefined}
 				onClick={handleClickListItem}
-			 itemState={isDisabled ? 'disabled' : 'active'}
+				itemState={isDisabled ? 'disabled' : 'active'}
 			>
 				<Typography>
 					{position}.{' '}
-          {skillMap[position].name ? skillMap[position].name : 'Add skill'}
+					{skillMap[position].name ? skillMap[position].name : 'Add skill'}
 				</Typography>
 				{!isDisabled && <ExpandMoreIcon color="inherit" />}
 			</ItemWrapper>
-      {/* TODO: menu in its own file. */}
 			<Menu
 				id="lock-menu"
 				anchorEl={anchorEl}
@@ -83,7 +77,7 @@ export const InputItem: React.FC<InputItemProps> = ({
 				{options.map((option, index) => (
 					<MenuItem
 						key={option.name}
-            selected={skillMap[position].id === option.id}
+						selected={skillMap[position].id === option.id}
 						onClick={(event) => handleMenuItemClick(event, index)}
 					>
 						{option.name}

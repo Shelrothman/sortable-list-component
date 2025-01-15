@@ -2,14 +2,8 @@ import React from 'react';
 import { Box, BoxProps } from '@mui/material';
 import { ItemState } from '@/types';
 
-// todo: set | disabled | active to be just one flag instead of multiple props
-
-// export type ItemState = 'set' | 'disabled' | 'active';
-
 type ItemWrapperProps = {
 	children: React.ReactNode;
-	// isSet: boolean;
-	// disabled?: boolean;
 	itemState: ItemState;
 } & BoxProps;
 
@@ -27,8 +21,6 @@ const getBorder = (itemState: ItemState) => {
 
 export const ItemWrapper: React.FC<ItemWrapperProps> = ({
 	children,
-	// isSet,
-	// disabled = false,
 	itemState,
 	...rest
 }) => {

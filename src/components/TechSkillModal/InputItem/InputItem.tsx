@@ -2,8 +2,6 @@ import React from 'react';
 import { MenuItem, Autocomplete, TextField } from '@mui/material';
 import { Skill, SkillPosition } from '../../../types';
 
-import './inputItem.css';
-
 type InputItemProps = {
 	options: Skill[];
 	onSelectionChange: (s: Skill) => void;

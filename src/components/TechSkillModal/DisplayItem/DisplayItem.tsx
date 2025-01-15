@@ -1,8 +1,7 @@
 import React from 'react';
 
 import CloseIcon from '@mui/icons-material/Close';
-import { ItemWrapper } from '@components/ItemWrapper';
-import { IconButton, Typography } from '@mui/material';
+import { IconButton, Typography, Box } from '@mui/material';
 
 type DisplayItemProps = {
 	onRemove: () => void;
@@ -19,11 +18,21 @@ export const DisplayItem: React.FC<DisplayItemProps> = ({
 	position,
 }) => {
 	return (
-		<ItemWrapper
+		<Box
 			id={`skill-display-${position}`}
 			draggable={true}
-			itemState={'set'}
-			style={{ cursor: 'grab' }}
+			sx={{
+				width: '100%',
+				border: '1px solid #03103b',
+				bgcolor: '#03103b',
+				color: '#fff',
+				display: 'flex',
+				justifyContent: 'space-between',
+				alignItems: 'center',
+				padding: '0.75rem 0.5rem',
+				borderRadius: '6px',
+				cursor: 'grab',
+			}}
 		>
 			<Typography>
 				{position}. {name}
@@ -40,6 +49,6 @@ export const DisplayItem: React.FC<DisplayItemProps> = ({
 			>
 				<CloseIcon fontSize="small" />
 			</IconButton>
-		</ItemWrapper>
+		</Box>
 	);
 };
